@@ -1,7 +1,19 @@
 export const PHONE = '0745368925'
 export const PHONE_DISPLAY = '0745 368 925'
-export const WHATSAPP_URL =
-  'https://wa.me/40745368925?text=Bun%C4%83%20ziua!%20A%C8%99%20dori%20s%C4%83%20fac%20o%20programare%20la%20KinetoMobility.'
+export const WHATSAPP_NUMBER = '40745368925'
+export const WHATSAPP_BASE = `https://wa.me/${WHATSAPP_NUMBER}`
+export const WHATSAPP_URL = `${WHATSAPP_BASE}?text=${encodeURIComponent(
+  'Bună ziua! Aș dori o programare la KinetoMobility.',
+)}`
+
+export function buildWhatsAppUrl(text) {
+  return `${WHATSAPP_BASE}?text=${encodeURIComponent(text)}`
+}
+
+/** Navigare directă — funcționează pe mobile (window.open e blocat adesea) */
+export function openWhatsApp(text) {
+  window.location.assign(buildWhatsAppUrl(text))
+}
 export const PHONE_SIMARIA = '0764719609'
 export const ADDRESS = 'Strada Iuliu Maniu nr. 1A, Dej 405200'
 export const MAPS_URL =

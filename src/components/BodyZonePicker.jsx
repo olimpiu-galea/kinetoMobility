@@ -1,9 +1,8 @@
 import { useMemo, useState } from 'react'
 import { bodyMapZones, BODY_MAP_VIEWBOX, formatZoneLabel } from '../data/bodyMapZones'
-import { WHATSAPP_URL } from '../data/site'
+import { openWhatsApp } from '../data/site'
 
 const { w: VW, h: VH } = BODY_MAP_VIEWBOX
-const WHATSAPP_BASE = WHATSAPP_URL.split('?')[0]
 const emptyForm = { nume: '', telefon: '', varsta: '', problema: '' }
 
 function ZoneOverlay({ zone, selected, onToggle }) {
@@ -34,6 +33,13 @@ function ZoneOverlay({ zone, selected, onToggle }) {
   )
 }
 
+function formatZonesForMessage(labels) {
+  if (labels.length === 0) return '—'
+  const joined = labels.join(', ')
+  if (joined.length <= 380) return joined
+  return `${labels.slice(0, 6).join(', ')} (+${labels.length - 6} zone)`
+}
+
 function buildWhatsAppMessage(form, selectedLabels) {
   const lines = [
     'Bună ziua! Aș dori să fiu contactat de KinetoMobility.',
@@ -41,7 +47,7 @@ function buildWhatsAppMessage(form, selectedLabels) {
     `Nume: ${form.nume.trim()}`,
     `Telefon: ${form.telefon.trim()}`,
     `Vârstă: ${form.varsta.trim() || '—'}`,
-    `Zone cu probleme: ${selectedLabels.length > 0 ? selectedLabels.join(', ') : '—'}`,
+    `Zone cu probleme: ${formatZonesForMessage(selectedLabels)}`,
     '',
     `Problemă: ${form.problema.trim()}`,
   ]
@@ -80,10 +86,7 @@ export default function BodyZonePicker() {
       setFormError('Completează numele, telefonul și descrierea problemei.')
       return
     }
-    const url = `${WHATSAPP_BASE}?text=${encodeURIComponent(
-      buildWhatsAppMessage(form, selectedLabels),
-    )}`
-    window.open(url, '_blank', 'noopener,noreferrer')
+    openWhatsApp(buildWhatsAppMessage(form, selectedLabels))
   }
 
   return (
