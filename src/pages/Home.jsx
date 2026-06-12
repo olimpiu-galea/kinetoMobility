@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom'
-import BodyZonePicker from '../components/BodyZonePicker'
+import BodyZonePickerLibrary from '../components/BodyZonePickerLibrary'
 import {
   PHONE,
   PHONE_DISPLAY,
@@ -7,6 +6,7 @@ import {
   LOGO,
   quickActions,
 } from '../data/site'
+import { Link } from 'react-router-dom'
 
 export default function Home() {
   return (
@@ -16,14 +16,17 @@ export default function Home() {
           <div className="hero-content reveal">
             <div className="badge">
               <span className="pulse" />
-              Dej · Recuperare medicală
+              Dej · Est. 2007
             </div>
             <h1>
-              Recuperare
-              <span className="gradient-text"> personalizată</span>
+              Kineto<span className="gradient-text">Mobility</span>
             </h1>
+            <p className="hero-slogan">Mai multă mobilitate, mai multă libertate</p>
             <p className="hero-desc">
-              Kinetoterapie 1:1, echipament modern, echipă dedicată.
+              Cu experiență din 2007 și cu multă pasiune, tratăm: afecțiuni
+              musculoscheletale, entorse, luxații, întinderi, contracturi și
+              rupturi musculare, traumatisme pre și postoperator și
+              posttraumatic, probleme ale coloanei vertebrale.
             </p>
             <div className="hero-actions">
               <a href={`tel:+4${PHONE}`} className="btn btn-primary">
@@ -92,24 +95,7 @@ export default function Home() {
         </div>
       </section>
 
-      <BodyZonePicker />
-
-      <section className="section section-tight">
-        <div className="container home-bottom-grid">
-          <Link to="/servicii#kinetoterapie-prenatala" className="card home-tile reveal">
-            <span className="section-tag">Specializat</span>
-            <h3>Prenatal & Postnatal</h3>
-            <p>Planșeu pelvin, diastază, postură post-partum.</p>
-            <span className="tile-link">Vezi la servicii →</span>
-          </Link>
-          <Link to="/despre" className="card home-tile reveal reveal-delay-1">
-            <span className="section-tag">Echipa</span>
-            <h3>Terapeuți UMF Cluj</h3>
-            <p>Specialiști dedicați recuperării tale.</p>
-            <span className="tile-link">Cunoaște echipa →</span>
-          </Link>
-        </div>
-      </section>
+      <BodyZonePickerLibrary />
     </>
   )
 }

@@ -86,71 +86,21 @@ export const services = [
   },
 ]
 
-export const programs = [
-  {
-    id: 'kinetoterapie-prenatala',
-    tag: 'Prenatal',
-    title: 'Kinetoterapie prenatală',
-    image: '/images/services/kinetoterapie-prenatala.jpg',
-    intro:
-      'Exerciții sigure și personalizate pe durata sarcinii, sub îndrumarea unui specialist.',
-    points: [
-      'Ameliorează durerile de spate și pelviene',
-      'Îmbunătățește postura',
-      'Menține mobilitatea și tonusul muscular',
-      'Pregătește planșeul pelvin pentru naștere',
-    ],
-    contact: PHONE_SIMARIA,
-    contactName: 'Sima Maria',
-  },
-  {
-    id: 'kinetoterapie-postnatala',
-    tag: 'Postnatal',
-    title: 'Kinetoterapie postnatală',
-    image: '/images/services/kinetoterapie-postnatala.jpg',
-    intro:
-      'Evaluare planșeu pelvin și program personalizat, recomandat după minim 6 săptămâni de la naștere.',
-    points: [
-      'Refacerea musculaturii abdominale și pelvine',
-      'Corectarea diastazei abdominale',
-      'Reducerea durerilor lombare',
-      'Gestionarea incontinenței urinare',
-      'Reechilibrare posturală și revenire la activități',
-    ],
-    contact: PHONE_SIMARIA,
-    contactName: 'Sima Maria',
-  },
-]
-
 export const team = [
   {
     name: 'Sima Maria',
-    role: 'Kinetoterapeut Pre & Post-Partum',
+    role: 'Kinetoterapeut',
     phone: PHONE_SIMARIA,
-    bio: 'Licențiată în Kinetoterapie, masterandă în Kinetoterapia afecțiunilor aparatului locomotor. Specializată în recuperarea planșeului pelvin, afecțiuni urologice și ginecologice, kinetoterapie prenatală și postnatală.',
+    bio: 'Licențiată în Kinetoterapie, masterandă în Kinetoterapia afecțiunilor aparatului locomotor. Specializată în recuperarea planșeului pelvin, afecțiuni urologice și ginecologice.',
   },
   {
     name: 'Bogdan Mădălina',
     role: 'Kinetoterapeut',
-    bio: 'Absolventă UMF Cluj, specializarea Balneofiziokinetoterapie și recuperare medicală. Masterandă în reabilitarea pacienților cu boli reumatologice.',
+    bio: 'Specializarea Balneofiziokinetoterapie și recuperare medicală. Masterandă în reabilitarea pacienților cu boli reumatologice.',
   },
 ]
 
-export const programServices = programs.map((p) => ({
-  slug: p.id,
-  title: p.title,
-  image: p.image,
-  tag: p.tag,
-  summary: p.intro,
-  desc: p.intro,
-  points: p.points,
-  forWho: `Program ${p.tag.toLowerCase()}`,
-  program: true,
-  contact: p.contact,
-  contactName: p.contactName,
-}))
-
-export const allServices = [...services, ...programServices]
+export const allServices = services
 
 export const quickActions = [
   {

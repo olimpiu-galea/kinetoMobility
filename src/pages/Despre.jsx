@@ -6,7 +6,6 @@ const values = [
   'Plan personalizat',
   'Echipament modern',
   'Toate vârstele',
-  'Pre & post-partum',
   'Empatie & rezultate',
 ]
 

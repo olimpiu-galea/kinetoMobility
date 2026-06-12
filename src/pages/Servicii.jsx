@@ -7,7 +7,7 @@ export default function Servicii() {
       <PageHero
         tag="Servicii"
         title="Tratamente & terapii"
-        desc="Servicii generale și programe specializate prenatal & postnatal."
+        desc="Kinetoterapie, fizioterapie și recuperare medicală — plan personalizat pentru fiecare pacient."
       >
         <a href={`tel:+4${PHONE}`} className="btn btn-primary btn-sm">
           Întreabă la telefon

@@ -378,7 +378,19 @@ img {
   font-weight: 800;
   line-height: 1.08;
   letter-spacing: -0.03em;
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-slogan {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--teal-dark);
+  margin-bottom: 1.1rem;
+  max-width: 32rem;
+  line-height: 1.45;
 }
 
 .gradient-text {
@@ -389,9 +401,10 @@ img {
 }
 
 .hero-desc {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: var(--text-muted);
-  max-width: 480px;
+  max-width: 34rem;
+  line-height: 1.65;
   margin-bottom: 1.5rem;
 }
 
@@ -1252,14 +1265,14 @@ img {
 
 /* ── Pain map (body zone picker) ── */
 .body-picker-section {
-  padding-top: 2.5rem;
-  padding-bottom: 3rem;
+  padding-top: 2rem;
+  padding-bottom: 2.5rem;
   background: #f8fafb;
 }
 
 .body-picker-head {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.15rem;
 }
 
 .body-picker-head h2 {
@@ -1279,35 +1292,88 @@ img {
 }
 
 .pain-map-card {
-  max-width: 560px;
+  max-width: 640px;
   margin-inline: auto;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.body-picker-container {
+  width: min(820px, 94vw);
+}
+
+.pain-map-card-library {
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+.pain-map-library-frame {
   background: #ffffff;
-  border-radius: 24px;
-  border: 1px solid rgba(15, 28, 46, 0.06);
-  box-shadow:
-    0 1px 2px rgba(15, 28, 46, 0.04),
-    0 12px 40px rgba(15, 28, 46, 0.07);
-  overflow: hidden;
+  border: 2px solid #00a99d;
+  border-radius: 20px;
+  padding: 1.15rem 2rem 0.9rem;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
 }
 
-.pain-map-labels {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  padding: 1rem 1.5rem 0;
-  text-align: center;
+.pain-map-dual {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 28px;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
 }
 
-.pain-map-labels span {
-  font-size: 0.75rem;
+.pain-map-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 0 auto;
+  width: auto;
+}
+
+.pain-map-model {
+  width: auto;
+  line-height: 0;
+}
+
+.pain-map-model .rbh-wrapper {
+  display: inline-block;
+  line-height: 0;
+}
+
+.pain-map-model svg.rbh {
+  --model-height: 360px;
+  width: calc(var(--model-height) * 100 / 225);
+  height: var(--model-height);
+  display: block;
+}
+
+.pain-map-view-label {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #94a3b8;
+  color: #4a4a4a;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.15rem;
 }
 
-.pain-map-canvas {
-  padding: 0.5rem 1rem 0.75rem;
+.pain-map-library-status {
+  margin: 0.35rem 0 0;
+  padding-top: 0.55rem;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+  color: #4a4a4a;
+  font-size: 0.9rem;
+}
+
+.pain-map-library-status strong {
+  color: #00a99d;
 }
 
 .pain-map-svg {
@@ -1317,41 +1383,67 @@ img {
   user-select: none;
 }
 
+.pain-map-card-bg {
+  fill: #ffffff;
+  stroke: #eeeeee;
+  stroke-width: 1;
+}
+
+.pain-map-svg-label {
+  fill: #4a4a4a;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.pain-map-separator {
+  stroke: #e0e0e0;
+  stroke-width: 1;
+}
+
+.pain-map-status {
+  fill: #4a4a4a;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 20px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.pain-map-status-count {
+  fill: #00a99d;
+  font-weight: 700;
+}
+
+.body-zone-mask {
+  pointer-events: none;
+}
+
 .body-zone {
   fill: transparent;
-  stroke: var(--teal);
-  stroke-width: 1.25;
+  pointer-events: all;
   cursor: pointer;
-  transition: fill 0.2s ease, stroke 0.2s ease, stroke-width 0.2s ease;
+  transition: fill 0.2s ease;
 }
 
 .body-zone:hover {
-  stroke: var(--teal-dark);
-  stroke-width: 1.75;
+  fill: rgba(0, 169, 157, 0.08);
 }
 
 .body-zone.is-active {
-  fill: rgba(0, 155, 138, 0.38);
-  stroke: var(--teal);
-  stroke-width: 2;
+  fill: rgba(242, 168, 168, 0.55);
 }
 
 .pain-map-footer {
-  padding: 1.25rem 1.5rem 1.5rem;
-  border-top: 1px solid rgba(15, 28, 46, 0.06);
-  background: #fafbfc;
+  padding: 0.75rem 1rem 1.15rem;
 }
 
-.pain-map-count {
-  text-align: center;
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  margin-bottom: 0.75rem;
-}
-
-.pain-map-count strong {
-  color: var(--teal-dark);
-  font-weight: 700;
+.pain-map-card-library .pain-map-footer {
+  width: 80%;
+  max-width: 80%;
+  margin-inline: auto;
+  padding-inline: 0.25rem;
 }
 
 .pain-map-chips {
@@ -1365,8 +1457,8 @@ img {
 .pain-map-chip {
   padding: 0.3rem 0.7rem;
   border-radius: 100px;
-  background: var(--teal-light);
-  color: var(--teal-dark);
+  background: #fde8e8;
+  color: #9e3a3a;
   font-size: 0.78rem;
   font-weight: 600;
 }
@@ -1692,6 +1784,19 @@ img {
 
   .pain-map-card {
     border-radius: 20px;
+  }
+
+  .pain-map-dual {
+    gap: 20px;
+    max-width: 100%;
+  }
+
+  .pain-map-model svg.rbh {
+    --model-height: 300px;
+  }
+
+  .pain-map-library-frame {
+    padding: 0.9rem 1.25rem 0.7rem;
   }
 
   .pain-map-footer {
