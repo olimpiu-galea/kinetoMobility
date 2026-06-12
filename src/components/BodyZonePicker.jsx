@@ -1,80 +1,17 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import Model from 'react-body-highlighter'
 import {
-  BODY_MAP_VIEWBOX,
-  FRONT_CENTER_X,
-  BACK_CENTER_X,
-  bodyMapZones,
-  formatZoneLabel,
-  getZonesForRender,
-} from '../data/bodyMapZones'
+  hideSoleusPolygons,
+  musclesForHighlight,
+  resolveMuscleClick,
+} from '../data/bodyLibraryConfig'
+import { formatMuscleLabel } from '../data/muscleLabelsRo'
 import { openWhatsApp } from '../data/site'
 
-const { w: VW, h: VH } = BODY_MAP_VIEWBOX
 const emptyForm = { nume: '', telefon: '', varsta: '', problema: '' }
-const STROKE = '#00a99d'
-const STROKE_W = 3
-
-function zoneTransform(zone) {
-  const angle = zone.rotate ?? 0
-  if (!angle || zone.shape === 'circle') return undefined
-  return `rotate(${angle} ${zone.cx} ${zone.cy})`
-}
-
-function ZoneShape({ zone, className, ...props }) {
-  if (zone.shape === 'circle') {
-    return <circle cx={zone.cx} cy={zone.cy} r={zone.r} className={className} {...props} />
-  }
-  return (
-    <ellipse
-      cx={zone.cx}
-      cy={zone.cy}
-      rx={zone.rx}
-      ry={zone.ry}
-      transform={zoneTransform(zone)}
-      className={className}
-      {...props}
-    />
-  )
-}
-
-function ZoneOverlay({ zone, selected, onToggle }) {
-  const active = selected.has(zone.id)
-
-  return (
-    <g id={zone.id}>
-      <ZoneShape
-        zone={zone}
-        className="body-zone-mask"
-        fill="#ffffff"
-        stroke="#ffffff"
-        strokeWidth="5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      />
-      <ZoneShape
-        zone={zone}
-        fill="transparent"
-        stroke={STROKE}
-        strokeWidth={STROKE_W}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={`body-zone ${active ? 'is-active' : ''}`}
-        onClick={() => onToggle(zone.id)}
-        role="button"
-        tabIndex={0}
-        aria-label={`${formatZoneLabel(zone)}${active ? ', selectat' : ''}`}
-        aria-pressed={active}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault()
-            onToggle(zone.id)
-          }
-        }}
-      />
-    </g>
-  )
-}
+const SELECT_COLOR = 'rgba(242, 168, 168, 0.85)'
+const BODY_COLOR = '#e4e8ec'
+const MODEL_VIEWBOX = '0 0 100 225'
 
 function formatZonesForMessage(labels) {
   if (labels.length === 0) return '—'
@@ -97,24 +34,71 @@ function buildWhatsAppMessage(form, selectedLabels) {
   return lines.join('\n')
 }
 
+function applyModelSvgFixes(wrap, type) {
+  const svg = wrap?.querySelector('svg.rbh')
+  if (!svg) return
+  svg.setAttribute('viewBox', MODEL_VIEWBOX)
+  svg.removeAttribute('width')
+  svg.removeAttribute('height')
+  if (type === 'posterior') hideSoleusPolygons(svg)
+}
+
+function BodyModel({ type, data, onMuscleClick }) {
+  const wrapRef = useRef(null)
+
+  useEffect(() => {
+    const wrap = wrapRef.current
+    if (!wrap) return
+
+    applyModelSvgFixes(wrap, type)
+    const frame = requestAnimationFrame(() => {
+      applyModelSvgFixes(wrap, type)
+      requestAnimationFrame(() => applyModelSvgFixes(wrap, type))
+    })
+
+    return () => cancelAnimationFrame(frame)
+  }, [type, data])
+
+  return (
+    <div ref={wrapRef} className="pain-map-model">
+      <Model
+        type={type}
+        data={data}
+        bodyColor={BODY_COLOR}
+        highlightedColors={[SELECT_COLOR]}
+        onClick={onMuscleClick}
+      />
+    </div>
+  )
+}
+
 export default function BodyZonePicker() {
   const [selected, setSelected] = useState(() => new Set())
   const [form, setForm] = useState(emptyForm)
   const [formError, setFormError] = useState('')
 
-  const toggle = (id) => {
+  const toggleMuscle = useCallback((muscle) => {
     setSelected((prev) => {
       const next = new Set(prev)
-      if (next.has(id)) next.delete(id)
-      else next.add(id)
+      if (next.has(muscle)) next.delete(muscle)
+      else next.add(muscle)
       return next
     })
-  }
+  }, [])
 
-  const renderZones = useMemo(() => getZonesForRender(), [])
+  const handleMuscleClick = useCallback(
+    ({ muscle }) => toggleMuscle(resolveMuscleClick(muscle)),
+    [toggleMuscle],
+  )
+
+  const highlightData = useMemo(() => {
+    const muscles = musclesForHighlight(selected)
+    if (muscles.length === 0) return []
+    return [{ name: 'zone-selectate', muscles, frequency: 1 }]
+  }, [selected])
 
   const selectedLabels = useMemo(
-    () => bodyMapZones.filter((z) => selected.has(z.id)).map((z) => formatZoneLabel(z)),
+    () => musclesForHighlight(selected).map(formatMuscleLabel).sort((a, b) => a.localeCompare(b, 'ro')),
     [selected],
   )
 
@@ -144,26 +128,22 @@ export default function BodyZonePicker() {
         </div>
 
         <div className="pain-map-card reveal">
-          <svg
-            viewBox={`0 0 ${VW} ${VH}`}
-            className="pain-map-svg"
-            preserveAspectRatio="xMidYMid meet"
-            aria-label="Hartă corporală interactivă"
-          >
-            <rect x="56" y="38" width="1088" height="792" rx="32" className="pain-map-card-bg" />
+          <div className="pain-map-library-frame">
+            <div className="pain-map-dual">
+              <div className="pain-map-view">
+                <span className="pain-map-view-label">FAȚĂ</span>
+                <BodyModel type="anterior" data={highlightData} onMuscleClick={handleMuscleClick} />
+              </div>
+              <div className="pain-map-view">
+                <span className="pain-map-view-label">SPATE</span>
+                <BodyModel type="posterior" data={highlightData} onMuscleClick={handleMuscleClick} />
+              </div>
+            </div>
 
-            <text x={FRONT_CENTER_X} y="72" className="pain-map-svg-label">FAȚĂ</text>
-            <text x={BACK_CENTER_X} y="72" className="pain-map-svg-label">SPATE</text>
-
-            {renderZones.map((zone) => (
-              <ZoneOverlay key={zone.id} zone={zone} selected={selected} onToggle={toggle} />
-            ))}
-
-            <line x1="56" y1="829" x2="1144" y2="829" className="pain-map-separator" />
-            <text x="600" y="876" className="pain-map-status" aria-live="polite">
-              Ai selectat: <tspan className="pain-map-status-count">{count}</tspan> {zoneLabel}
-            </text>
-          </svg>
+            <p className="pain-map-library-status" aria-live="polite">
+              Ai selectat: <strong>{count}</strong> {zoneLabel}
+            </p>
+          </div>
 
           <div className="pain-map-footer">
             {count > 0 && (

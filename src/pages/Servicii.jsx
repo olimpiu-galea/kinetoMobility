@@ -1,5 +1,5 @@
 import PageHero from '../components/PageHero'
-import { PHONE, PHONE_SIMARIA, allServices } from '../data/site'
+import { PHONE, PHONE_SIMARIA, services } from '../data/site'
 
 export default function Servicii() {
   return (
@@ -17,7 +17,7 @@ export default function Servicii() {
       <section className="section section-tight">
         <div className="container">
           <div className="services-grid">
-            {allServices.map((s, i) => (
+            {services.map((s, i) => (
               <article
                 key={s.slug}
                 className={`card service-card ${s.program ? 'service-card-program' : ''} reveal reveal-delay-${i % 3}`}

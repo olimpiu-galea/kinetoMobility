@@ -1,4 +1,4 @@
-import BodyZonePickerLibrary from '../components/BodyZonePickerLibrary'
+import BodyZonePicker from '../components/BodyZonePicker'
 import {
   PHONE,
   PHONE_DISPLAY,
@@ -95,7 +95,7 @@ export default function Home() {
         </div>
       </section>
 
-      <BodyZonePickerLibrary />
+      <BodyZonePicker />
     </>
   )
 }

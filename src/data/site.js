@@ -100,8 +100,6 @@ export const team = [
   },
 ]
 
-export const allServices = services
-
 export const quickActions = [
   {
     title: 'Programează o ședință',

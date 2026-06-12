@@ -1292,7 +1292,7 @@ img {
 }
 
 .pain-map-card {
-  max-width: 640px;
+  max-width: 100%;
   margin-inline: auto;
   background: transparent;
   border: none;
@@ -1302,11 +1302,6 @@ img {
 
 .body-picker-container {
   width: min(820px, 94vw);
-}
-
-.pain-map-card-library {
-  max-width: 100%;
-  margin-inline: auto;
 }
 
 .pain-map-library-frame {
@@ -1376,70 +1371,11 @@ img {
   color: #00a99d;
 }
 
-.pain-map-svg {
-  width: 100%;
-  height: auto;
-  display: block;
-  user-select: none;
-}
-
-.pain-map-card-bg {
-  fill: #ffffff;
-  stroke: #eeeeee;
-  stroke-width: 1;
-}
-
-.pain-map-svg-label {
-  fill: #4a4a4a;
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  text-anchor: middle;
-  dominant-baseline: middle;
-}
-
-.pain-map-separator {
-  stroke: #e0e0e0;
-  stroke-width: 1;
-}
-
-.pain-map-status {
-  fill: #4a4a4a;
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-  font-size: 20px;
-  text-anchor: middle;
-  dominant-baseline: middle;
-}
-
-.pain-map-status-count {
-  fill: #00a99d;
-  font-weight: 700;
-}
-
-.body-zone-mask {
-  pointer-events: none;
-}
-
-.body-zone {
-  fill: transparent;
-  pointer-events: all;
-  cursor: pointer;
-  transition: fill 0.2s ease;
-}
-
-.body-zone:hover {
-  fill: rgba(0, 169, 157, 0.08);
-}
-
-.body-zone.is-active {
-  fill: rgba(242, 168, 168, 0.55);
-}
-
 .pain-map-footer {
   padding: 0.75rem 1rem 1.15rem;
 }
 
-.pain-map-card-library .pain-map-footer {
+.pain-map-card .pain-map-footer {
   width: 80%;
   max-width: 80%;
   margin-inline: auto;
